@@ -20,7 +20,7 @@ class TestBannerController(BaseTestCase):
         banner = Banner()
         response = self.client.open(
             '//notification',
-            method='POST',
+            method='PUT',
             data=json.dumps(banner),
             content_type='application/json')
         self.assert200(response,
@@ -31,7 +31,7 @@ class TestBannerController(BaseTestCase):
 
         Удалить список баннеров, удовлетворяющих списку
         """
-        query_string = [('date_start', 'date_start_example'),
+        query_string = [('date_start', '2013-10-20T19:20:30+01:00'),
                         ('app_codes', 'app_codes_example')]
         response = self.client.open(
             '//notification',

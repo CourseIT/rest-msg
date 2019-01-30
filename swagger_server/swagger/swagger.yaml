@@ -59,7 +59,7 @@ paths:
       security:
       - Bearer: []
       x-swagger-router-controller: "swagger_server.controllers.banner_controller"
-    post:
+    put:
       tags:
       - "banner"
       summary: "Зарегистрировать новые профилактические работы"
@@ -96,6 +96,7 @@ paths:
         description: "Дата начала работ"
         required: true
         type: "string"
+        format: "date-time"
       - name: "app_codes"
         in: "query"
         description: "Системы на которые вешается баннер"

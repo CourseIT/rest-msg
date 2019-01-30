@@ -47,7 +47,13 @@ def delete_banners(date_start, app_codes=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    date_start = util.deserialize_datetime(date_start)
+    for app_code in app_codes:
+        banner_in_db = Banner.query.get_or_404((app_code, date_start))
+        if banner_in_db:
+            db.session.delete(banner_in_db)
+    db.session.commit()
+    return 'Данные успешно удалены'
 
 
 def get_banner_info(app_code):  # noqa: E501
