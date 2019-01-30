@@ -69,11 +69,10 @@ def get_banner_info(app_code):  # noqa: E501
 
     :rtype: str
     """
-    banner = Banner.query.filter(
-        and_(Banner.app_code == app_code)) \
+    return Banner.query.filter(
+        and_(Banner.app_code == app_code, Banner.date_finish > datetime.datetime.now())) \
         .order_by(Banner.date_start) \
         .first_or_404()
-    return banner
 
 
 def get_banner_list(date_start=None, date_finish=None, app_codes=None):  # noqa: E501
