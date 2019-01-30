@@ -30,11 +30,6 @@ paths:
         required: false
         type: "string"
         format: "date-time"
-      - name: "is_active"
-        in: "query"
-        description: "Актуальный баннер"
-        required: false
-        type: "boolean"
       - name: "date_finish"
         in: "query"
         description: "Дата окончания работ"

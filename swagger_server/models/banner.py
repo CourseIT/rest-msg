@@ -15,10 +15,24 @@ class Banner(Model, db.Model):
     Do not edit the class manually.
     """
 
-    _app_code = db.Column("app_code", db.String(20), primary_key=True)
-    _date_start = db.Column("date_start", db.DateTime(), primary_key=True)
-    _date_finish = db.Column("date_finish", db.DateTime(), nullable=False)
-    _msg = db.Column("msg", db.Text(), nullable=False)
+    app_code = db.Column(db.String(20), primary_key=True)
+    date_start = db.Column(db.DateTime(), primary_key=True)
+    date_finish = db.Column(db.DateTime(), nullable=False)
+    msg = db.Column(db.Text(), nullable=False)
+
+    swagger_types = {
+        'app_code': str,
+        'date_start': datetime,
+        'date_finish': datetime,
+        'msg': str
+    }
+
+    attribute_map = {
+        'app_code': 'app_code',
+        'date_start': 'date_start',
+        'date_finish': 'date_finish',
+        'msg': 'msg'
+    }
 
     def __init__(self, app_code: str = None, date_start: datetime = None,
                  date_finish: datetime = None, msg: str = None):  # noqa: E501
@@ -33,24 +47,11 @@ class Banner(Model, db.Model):
         :param msg: The msg of this Banner.  # noqa: E501
         :type msg: str
         """
-        self.swagger_types = {
-            'app_code': str,
-            'date_start': datetime,
-            'date_finish': datetime,
-            'msg': str
-        }
 
-        self.attribute_map = {
-            'app_code': 'app_code',
-            'date_start': 'date_start',
-            'date_finish': 'date_finish',
-            'msg': 'msg'
-        }
-
-        self._app_code = app_code
-        self._date_start = date_start
-        self._date_finish = date_finish
-        self._msg = msg
+        self.app_code = app_code
+        self.date_start = date_start
+        self.date_finish = date_finish
+        self.msg = msg
 
     @classmethod
     def from_dict(cls, dikt) -> 'Banner':
@@ -62,101 +63,3 @@ class Banner(Model, db.Model):
         :rtype: Banner
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def app_code(self) -> str:
-        """Gets the app_code of this Banner.
-
-        Код системы  # noqa: E501
-
-        :return: The app_code of this Banner.
-        :rtype: str
-        """
-        return self._app_code
-
-    @app_code.setter
-    def app_code(self, app_code: str):
-        """Sets the app_code of this Banner.
-
-        Код системы  # noqa: E501
-
-        :param app_code: The app_code of this Banner.
-        :type app_code: str
-        """
-        if app_code is None:
-            raise ValueError("Invalid value for `app_code`, must not be `None`")  # noqa: E501
-
-        self._app_code = app_code
-
-    @property
-    def date_start(self) -> datetime:
-        """Gets the date_start of this Banner.
-
-        Дата и время начала работ  # noqa: E501
-
-        :return: The date_start of this Banner.
-        :rtype: datetime
-        """
-        return self._date_start
-
-    @date_start.setter
-    def date_start(self, date_start: datetime):
-        """Sets the date_start of this Banner.
-
-        Дата и время начала работ  # noqa: E501
-
-        :param date_start: The date_start of this Banner.
-        :type date_start: datetime
-        """
-        if date_start is None:
-            raise ValueError("Invalid value for `date_start`, must not be `None`")  # noqa: E501
-
-        self._date_start = date_start
-
-    @property
-    def date_finish(self) -> datetime:
-        """Gets the date_finish of this Banner.
-
-        Дата и время окончания работ  # noqa: E501
-
-        :return: The date_finish of this Banner.
-        :rtype: datetime
-        """
-        return self._date_finish
-
-    @date_finish.setter
-    def date_finish(self, date_finish: datetime):
-        """Sets the date_finish of this Banner.
-
-        Дата и время окончания работ  # noqa: E501
-
-        :param date_finish: The date_finish of this Banner.
-        :type date_finish: datetime
-        """
-        if date_finish is None:
-            raise ValueError("Invalid value for `date_finish`, must not be `None`")  # noqa: E501
-
-        self._date_finish = date_finish
-
-    @property
-    def msg(self) -> str:
-        """Gets the msg of this Banner.
-
-        Текст сообщения  # noqa: E501
-
-        :return: The msg of this Banner.
-        :rtype: str
-        """
-        return self._msg
-
-    @msg.setter
-    def msg(self, msg: str):
-        """Sets the msg of this Banner.
-
-        Текст сообщения  # noqa: E501
-
-        :param msg: The msg of this Banner.
-        :type msg: str
-        """
-
-        self._msg = msg
