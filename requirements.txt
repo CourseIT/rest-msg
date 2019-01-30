@@ -1,0 +1,5 @@
+connexion == 1.1.15
+Flask-SQLAlchemy >= 2.3.2
+python_dateutil == 2.6.0
+python-dotenv
+setuptools >= 21.0.0
