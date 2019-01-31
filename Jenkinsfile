@@ -46,19 +46,7 @@ node {
             sh 'python setup.py sdist'
         }
 
-        stage('Build js dist'){
-            // first install dev dependencies
-            env.NODE_ENV = "dev"
-            sh 'npm install'
-
-            env.NODE_ENV = "prod"
-
-            sh 'node -v'
-            sh 'npm install'
-            sh 'npm run-script build'
-        }
-
-        stage ('Publish dist') {'
+        stage ('Publish dist') {
             def uploadSpec = """{
                 "files": [
                 {
