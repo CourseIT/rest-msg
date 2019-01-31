@@ -3,7 +3,7 @@ from swagger_server.config import settings
 
 
 def api_key(key, required_scopes=None):
-    if f'Bearer {settings.AUTHORIZATION}' == key:
+    if settings.AUTHORIZATION == key:
         return {'sub': 'admin'}
 
     # optional: raise exception for custom error response

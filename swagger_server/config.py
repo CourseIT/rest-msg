@@ -6,6 +6,7 @@ import os
 import connexion
 from dotenv import find_dotenv, load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from jinja2 import Environment, BaseLoader
 
 load_dotenv(find_dotenv())
@@ -131,6 +132,7 @@ app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Create the SqlAlchemy db instance
 db = SQLAlchemy(app.app)
+CORS(app.app)
 
 # noinspection PyUnresolvedReferences
 from swagger_server.models import Banner
