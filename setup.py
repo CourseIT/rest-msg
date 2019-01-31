@@ -3,7 +3,7 @@ import codecs
 import os
 from setuptools import setup, find_packages
 
-NAME = "swagger_server"
+NAME = "rest-msg"
 
 VERSION = "1.{}".format(os.getenv('BUILD_NUMBER', '0'))
 
