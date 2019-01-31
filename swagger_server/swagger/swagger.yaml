@@ -6,44 +6,51 @@ info:
   title: "Maintenance"
   contact:
     email: "maria.prudyvus@curs.ru"
-host: "notify.curs.ru"
+
+host: "172.16.1.153:8000"
 basePath: "/"
 tags:
-- name: "banner"
-  description: "Баннеры"
+  - name: "banner"
+    description: "Баннеры"
 schemes:
-- "http"
+  - "http"
+  - "https"
+
 paths:
   /notification:
     get:
       tags:
-      - "banner"
+        - "banner"
       summary: "Получить список активных баннеров"
-      description: ""
-      operationId: "get_banner_list"
+      operationId: swagger_server.controllers.banner_controller.get_banner_list
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "date_start"
-        in: "query"
-        description: "Дата начала работ"
-        required: false
-        type: "string"
-        format: "date-time"
-      - name: "date_finish"
-        in: "query"
-        description: "Дата окончания работ"
-        required: false
-        type: "string"
-        format: "date-time"
-      - name: "app_codes"
-        in: "query"
-        description: "Системы на которые вешается баннер"
-        required: false
-        type: "array"
-        items:
+        - name: "date_start"
+          in: "query"
+          description: "Дата начала работ"
+          required: false
           type: "string"
-        collectionFormat: "multi"
+          format: "date-time"
+        - name: "is_active"
+          in: "query"
+          description: "Актуальный баннер"
+          required: false
+          type: "boolean"
+        - name: "date_finish"
+          in: "query"
+          description: "Дата окончания работ"
+          required: false
+          type: "string"
+          format: "date-time"
+        - name: "app_codes"
+          in: "query"
+          description: "Системы на которые вешается баннер"
+          required: false
+          type: "array"
+          items:
+            type: "string"
+          collectionFormat: "multi"
       responses:
         200:
           description: ""
@@ -52,24 +59,22 @@ paths:
             items:
               $ref: "#/definitions/Banner"
       security:
-      - Bearer: []
-      x-swagger-router-controller: "swagger_server.controllers.banner_controller"
+        - apiKey: []
     put:
       tags:
-      - "banner"
+        - "banner"
       summary: "Зарегистрировать новые профилактические работы"
-      description: ""
-      operationId: "add_banner"
+      operationId: "swagger_server.controllers.banner_controller.add_banner"
       consumes:
-      - "application/json"
-      - "multipart/form-data"
+        - "application/json"
+        - "multipart/form-data"
       parameters:
-      - in: "body"
-        name: "banner"
-        description: "Добавляемый баннер"
-        required: true
-        schema:
-          $ref: "#/definitions/Banner"
+        - in: "body"
+          name: "banner"
+          description: "Добавляемый баннер"
+          required: true
+          schema:
+            $ref: "#/definitions/Banner"
       responses:
         200:
           description: "Баннер обновлен"
@@ -78,66 +83,60 @@ paths:
         403:
           description: "Необходима авторизация"
       security:
-      - Bearer: []
-      x-swagger-router-controller: "swagger_server.controllers.banner_controller"
+        - apiKey: []
     delete:
       tags:
-      - "banner"
+        - "banner"
       summary: "Удалить список баннеров, удовлетворяющих списку"
-      operationId: "delete_banners"
+      operationId: "swagger_server.controllers.banner_controller.delete_banners"
       parameters:
-      - name: "date_start"
-        in: "query"
-        description: "Дата начала работ"
-        required: true
-        type: "string"
-        format: "date-time"
-      - name: "app_codes"
-        in: "query"
-        description: "Системы на которые вешается баннер"
-        required: false
-        type: "array"
-        items:
+        - name: "date_start"
+          in: "query"
+          description: "Дата начала работ"
+          required: true
           type: "string"
-        collectionFormat: "multi"
+          format: "date-time"
+        - name: "app_codes"
+          in: "query"
+          description: "Системы на которые вешается баннер"
+          required: false
+          type: "array"
+          items:
+            type: "string"
+          collectionFormat: "multi"
       responses:
         200:
           description: ""
         404:
           description: ""
-      x-swagger-router-controller: "swagger_server.controllers.banner_controller"
+      security:
+        - apiKey: []
   /notification/{app_code}:
     get:
       tags:
-      - "banner"
+        - "banner"
       summary: "Получить информацию о текущем активном баннере"
-      operationId: "get_banner_info"
+      operationId: "swagger_server.controllers.banner_controller.get_banner_info"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "app_code"
-        in: "path"
-        description: "Идентификатор системы"
-        required: true
-        type: "string"
+        - name: "app_code"
+          in: "path"
+          description: "Идентификатор системы"
+          required: true
+          type: "string"
       responses:
         200:
           description: "Текст сообщения для баннера"
           schema:
             type: "string"
-      x-swagger-router-controller: "swagger_server.controllers.banner_controller"
-securityDefinitions:
-  Bearer:
-    type: "apiKey"
-    name: "Authorization"
-    in: "header"
 definitions:
   Banner:
     type: "object"
     required:
-    - "app_code"
-    - "date_finish"
-    - "date_start"
+      - "app_code"
+      - "date_finish"
+      - "date_start"
     properties:
       app_code:
         type: "string"
@@ -158,3 +157,9 @@ definitions:
       date_start: "2000-01-23T04:56:07.000+00:00"
       date_finish: "2000-01-23T04:56:07.000+00:00"
       app_code: "app_code"
+securityDefinitions:
+  apiKey:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    x-apikeyInfoFunc: "swagger_server.controllers.auth.api_key"

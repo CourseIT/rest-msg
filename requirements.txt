@@ -1,4 +1,4 @@
-connexion == 1.1.15
+connexion == 2.2.0
 Flask-SQLAlchemy >= 2.3.2
 python_dateutil == 2.6.0
 python-dotenv
