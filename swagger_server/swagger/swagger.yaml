@@ -22,7 +22,7 @@ paths:
       tags:
         - "banner"
       summary: "Получить список активных баннеров"
-      operationId: swagger_server.controllers.banner_controller.get_banner_list
+      operationId: "swagger_server.controllers.banner_controller.get_banner_list"
       produces:
         - "application/json"
       parameters:
@@ -67,14 +67,13 @@ paths:
       operationId: "swagger_server.controllers.banner_controller.add_banner"
       consumes:
         - "application/json"
-        - "multipart/form-data"
       parameters:
         - in: "body"
           name: "banner"
           description: "Добавляемый баннер"
           required: true
           schema:
-            $ref: "#/definitions/Banner"
+            $ref: "#/definitions/AddBannerBody"
       responses:
         200:
           description: "Баннер обновлен"
@@ -130,6 +129,12 @@ paths:
           description: "Текст сообщения для баннера"
           schema:
             type: "string"
+securityDefinitions:
+  apiKey:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    x-apikeyInfoFunc: "swagger_server.controllers.auth.api_key"
 definitions:
   Banner:
     type: "object"
@@ -153,13 +158,35 @@ definitions:
         type: "string"
         description: "Текст сообщения"
     example:
-      msg: "msg"
-      date_start: "2000-01-23T04:56:07.000+00:00"
-      date_finish: "2000-01-23T04:56:07.000+00:00"
-      app_code: "app_code"
-securityDefinitions:
-  apiKey:
-    type: "apiKey"
-    name: "Authorization"
-    in: "header"
-    x-apikeyInfoFunc: "swagger_server.controllers.auth.api_key"
+      msg: "test msg"
+      date_start: "2019-01-23T21:00"
+      date_finish: "2019-01-24T09:00"
+      app_code: "test_app"
+  AddBannerBody:
+    type: "object"
+    required:
+      - "app_codes"
+      - "date_finish"
+      - "date_start"
+    properties:
+      app_codes:
+        type: "array"
+        description: "Список кодов систем"
+        items:
+          type: "string"
+      date_start:
+        type: "string"
+        format: "date-time"
+        description: "Дата и время начала работ"
+      date_finish:
+        type: "string"
+        format: "date-time"
+        description: "Дата и время окончания работ"
+      msg:
+        type: "string"
+        description: "Текст сообщения"
+    example:
+      msg: "test msg"
+      date_start: "2019-01-23T21:00"
+      date_finish: "2019-01-24T09:00"
+      app_code: "test_app"

@@ -5,7 +5,7 @@ import six
 from sqlalchemy import and_
 from sqlalchemy.sql.operators import in_op
 
-from swagger_server.models.banner import Banner  # noqa: E501
+from swagger_server.models import Banner, AddBannerBody  # noqa: E501
 from swagger_server.config import db, settings
 from swagger_server import util
 
@@ -22,16 +22,19 @@ def add_banner(banner):  # noqa: E501
     """
     if not connexion.request.is_json:
         return 'json is needed', 415
+
     data = connexion.request.get_json()
-    app_codes = data.pop('app_code').split(',')
-    for app in app_codes:
-        data['app_code'] = app
-        banner = Banner.from_dict(data)  # noqa: E501
+
+    banner_body = AddBannerBody.from_dict(data)
+    for app in banner_body.app_codes:
+        banner = Banner(app_code=app, date_start=banner_body.date_start, date_finish=banner_body.date_finish,
+                        msg=banner_body.msg)
         if not banner.msg:
             banner.msg = settings.MSG_TEMPLATE.render(banner=banner)
         banner_in_db = Banner.query.get((banner.app_code, banner.date_start))
         if banner_in_db:
             db.session.delete(banner_in_db)
+            db.session.commit()
         db.session.add(banner)
     db.session.commit()
 

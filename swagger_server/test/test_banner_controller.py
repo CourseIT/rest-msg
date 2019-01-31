@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
+from swagger_server.models.add_banner_body import AddBannerBody  # noqa: E501
 from swagger_server.models.banner import Banner  # noqa: E501
 from swagger_server.test import BaseTestCase
 
@@ -12,12 +13,12 @@ from swagger_server.test import BaseTestCase
 class TestBannerController(BaseTestCase):
     """BannerController integration test stubs"""
 
-    def test_add_banner(self):
-        """Test case for add_banner
+    def test_swagger_server_controllers_banner_controller_add_banner(self):
+        """Test case for swagger_server_controllers_banner_controller_add_banner
 
         Зарегистрировать новые профилактические работы
         """
-        banner = Banner()
+        banner = AddBannerBody()
         response = self.client.open(
             '//notification',
             method='PUT',
@@ -26,8 +27,8 @@ class TestBannerController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_delete_banners(self):
-        """Test case for delete_banners
+    def test_swagger_server_controllers_banner_controller_delete_banners(self):
+        """Test case for swagger_server_controllers_banner_controller_delete_banners
 
         Удалить список баннеров, удовлетворяющих списку
         """
@@ -40,8 +41,8 @@ class TestBannerController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_banner_info(self):
-        """Test case for get_banner_info
+    def test_swagger_server_controllers_banner_controller_get_banner_info(self):
+        """Test case for swagger_server_controllers_banner_controller_get_banner_info
 
         Получить информацию о текущем активном баннере
         """
@@ -51,8 +52,8 @@ class TestBannerController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_banner_list(self):
-        """Test case for get_banner_list
+    def test_swagger_server_controllers_banner_controller_get_banner_list(self):
+        """Test case for swagger_server_controllers_banner_controller_get_banner_list
 
         Получить список активных баннеров
         """
