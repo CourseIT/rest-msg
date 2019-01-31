@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 NAME = "swagger_server"
 
-VERSION = f"1.{os.getenv('BUILD_NUMBER', '0')}"
+VERSION = "1.{}".format(os.getenv('BUILD_NUMBER', '0'))
 
 # To install the library, run the following
 #
