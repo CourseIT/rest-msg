@@ -120,7 +120,7 @@ _config_relation = {
     'default': DevelopmentConfig
 }
 
-ConfigClass = _config_relation[os.environ.get('BOT_CONFIG', 'default')]
+ConfigClass = _config_relation[os.environ.get('CONFIG', 'default')]
 settings = ConfigClass()
 
 app = connexion.App(__name__, specification_dir='./swagger/')
@@ -133,8 +133,5 @@ app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Create the SqlAlchemy db instance
 db = SQLAlchemy(app.app)
 CORS(app.app)
-
-# noinspection PyUnresolvedReferences
-from swagger_server.models import Banner
 
 db.create_all()

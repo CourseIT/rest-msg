@@ -20,7 +20,7 @@ class TestBannerController(BaseTestCase):
         """
         banner = AddBannerBody()
         response = self.client.open(
-            '//notification',
+            '/notification',
             method='PUT',
             data=json.dumps(banner),
             content_type='application/json')
@@ -35,7 +35,7 @@ class TestBannerController(BaseTestCase):
         query_string = [('date_start', '2013-10-20T19:20:30+01:00'),
                         ('app_codes', 'app_codes_example')]
         response = self.client.open(
-            '//notification',
+            '/notification',
             method='DELETE',
             query_string=query_string)
         self.assert200(response,
@@ -47,7 +47,7 @@ class TestBannerController(BaseTestCase):
         Получить информацию о текущем активном баннере
         """
         response = self.client.open(
-            '//notification/{app_code}'.format(app_code='app_code_example'),
+            '/notification/{app_code}'.format(app_code='app_code_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -58,11 +58,10 @@ class TestBannerController(BaseTestCase):
         Получить список активных баннеров
         """
         query_string = [('date_start', '2013-10-20T19:20:30+01:00'),
-                        ('is_active', true),
                         ('date_finish', '2013-10-20T19:20:30+01:00'),
                         ('app_codes', 'app_codes_example')]
         response = self.client.open(
-            '//notification',
+            '/notification',
             method='GET',
             query_string=query_string)
         self.assert200(response,
