@@ -14,7 +14,7 @@ VERSION = "1.{}".format(os.getenv('BUILD_NUMBER', '0'))
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["connexion"]
+REQUIRES = ["connexion", "Flask-CORS", "Flask-SQLAlchemy", "python-dotenv"]
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
@@ -29,7 +29,7 @@ setup(
     keywords=["Swagger", "Maintenance"],
     install_requires=REQUIRES,
     packages=find_packages(),
-    package_data={'': ['swagger/swagger.yaml']},
+    package_data={'swagger': ['swagger_server/swagger/swagger.yaml']},
     include_package_data=True,
     entry_points={
         'console_scripts': ['swagger_server=swagger_server.__main__:main']},
