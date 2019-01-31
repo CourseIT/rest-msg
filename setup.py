@@ -1,10 +1,12 @@
 # coding: utf-8
 
+import os
 import sys
 from setuptools import setup, find_packages
 
 NAME = "swagger_server"
-VERSION = "1.0.0"
+
+VERSION = f"1.{os.getenv('BUILD_NUMBER', '0')}"
 
 # To install the library, run the following
 #

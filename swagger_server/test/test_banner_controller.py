@@ -2,9 +2,12 @@
 
 from __future__ import absolute_import
 
+import os
+
 from flask import json
 from six import BytesIO
 
+from swagger_server.config import settings
 from swagger_server.models.add_banner_body import AddBannerBody  # noqa: E501
 from swagger_server.models.banner import Banner  # noqa: E501
 from swagger_server.test import BaseTestCase
@@ -13,7 +16,7 @@ from swagger_server.test import BaseTestCase
 class TestBannerController(BaseTestCase):
     """BannerController integration test stubs"""
 
-    def test_swagger_server_controllers_banner_controller_add_banner(self):
+    def test_add_banned(self):
         """Test case for swagger_server_controllers_banner_controller_add_banner
 
         Зарегистрировать новые профилактические работы
@@ -22,26 +25,28 @@ class TestBannerController(BaseTestCase):
         response = self.client.open(
             '/notification',
             method='PUT',
+            headers=json.dumps({'Authorization': settings.AUTHORIZATION}),
             data=json.dumps(banner),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_swagger_server_controllers_banner_controller_delete_banners(self):
+    def test_delete_banners(self):
         """Test case for swagger_server_controllers_banner_controller_delete_banners
 
         Удалить список баннеров, удовлетворяющих списку
         """
-        query_string = [('date_start', '2013-10-20T19:20:30+01:00'),
+        query_string = [('date_start', '2013-10-20T19:20'),
                         ('app_codes', 'app_codes_example')]
         response = self.client.open(
             '/notification',
             method='DELETE',
+            headers={'Authorization': settings.AUTHORIZATION},
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_swagger_server_controllers_banner_controller_get_banner_info(self):
+    def test_get_banner_info(self):
         """Test case for swagger_server_controllers_banner_controller_get_banner_info
 
         Получить информацию о текущем активном баннере
@@ -52,7 +57,7 @@ class TestBannerController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_swagger_server_controllers_banner_controller_get_banner_list(self):
+    def test_get_banner_list(self):
         """Test case for swagger_server_controllers_banner_controller_get_banner_list
 
         Получить список активных баннеров
@@ -63,6 +68,7 @@ class TestBannerController(BaseTestCase):
         response = self.client.open(
             '/notification',
             method='GET',
+            headers=json.dumps({'Authorization': settings.AUTHORIZATION}),
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -70,4 +76,5 @@ class TestBannerController(BaseTestCase):
 
 if __name__ == '__main__':
     import unittest
+
     unittest.main()

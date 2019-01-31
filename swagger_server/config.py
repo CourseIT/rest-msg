@@ -18,8 +18,10 @@ class Config(object):
     DEBUG = False
     TESTING = False
 
-    DATABASE_URL = os.getenv('DATABASE_URL',
-                             'sqlite:///' + os.path.join(BASEDIR, 'db.sqlite'))
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',
+                                        'sqlite:///' + os.path.join(BASEDIR, 'db.sqlite'))
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
 
@@ -73,7 +75,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
-    DATABASE_URL = os.environ.get('TEST_DATABASE_URL') or 'sqlite:///:memory:'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or 'sqlite:///:memory:'
 
 
 class ProductionConfig(Config):
@@ -126,9 +128,7 @@ settings = ConfigClass()
 app = connexion.App(__name__, specification_dir='./swagger/')
 
 # Configure the SqlAlchemy part of the app instance
-app.app.config['SQLALCHEMY_ECHO'] = True
-app.app.config['SQLALCHEMY_DATABASE_URI'] = settings.DATABASE_URL
-app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.app.config.from_object(settings)
 
 # Create the SqlAlchemy db instance
 db = SQLAlchemy(app.app)
