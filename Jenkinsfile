@@ -35,10 +35,10 @@ node {
             ]
         }"""
         server.download spec: downloadSpec
-        def oldWarnings = readYaml file: 'previous.yml'
-        if (warnings.flake8_warnings > oldWarnings.flake8_warnings) {
-            error "Number of flake8 warnings ${warnings.flake8_warnings} is greater than previous ${oldWarnings.flake8_warnings}."
-        }
+        // def oldWarnings = readYaml file: 'previous.yml'
+        // if (warnings.flake8_warnings > oldWarnings.flake8_warnings) {
+        //    error "Number of flake8 warnings ${warnings.flake8_warnings} is greater than previous ${oldWarnings.flake8_warnings}."
+        //}
     }
 
     if (env.BRANCH_NAME == 'master') {
