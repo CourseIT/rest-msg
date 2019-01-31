@@ -25,7 +25,7 @@ node {
 
     if (env.BRANCH_NAME == 'master') {
         stage('Build py dist') {
-            sh 'python setup.py sdist upload -r course'
+            sh 'python3 setup.py sdist upload -r course'
         }
     }
 }
