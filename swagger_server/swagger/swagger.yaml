@@ -184,4 +184,4 @@ definitions:
       msg: "test msg"
       date_start: "2019-01-23T21:00"
       date_finish: "2019-01-24T09:00"
-      app_code: "test_app"
+      app_codes: ["test_app1", "test_app2"]
