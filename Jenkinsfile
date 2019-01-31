@@ -27,7 +27,7 @@ node {
         def downloadSpec = """{
             "files": [
                 {
-                    "pattern": "rest-msg/api/*/result.yml",
+                    "pattern": "rest-msg/*/result.yml",
                     "build": "rest-msg :: master/LATEST",
                     "target": "previous.yml",
                     "flat": "true"
@@ -35,10 +35,10 @@ node {
             ]
         }"""
         server.download spec: downloadSpec
-        // def oldWarnings = readYaml file: 'previous.yml'
-        // if (warnings.flake8_warnings > oldWarnings.flake8_warnings) {
-        //    error "Number of flake8 warnings ${warnings.flake8_warnings} is greater than previous ${oldWarnings.flake8_warnings}."
-        //}
+        def oldWarnings = readYaml file: 'previous.yml'
+        if (warnings.flake8_warnings > oldWarnings.flake8_warnings) {
+           error "Number of flake8 warnings ${warnings.flake8_warnings} is greater than previous ${oldWarnings.flake8_warnings}."
+        }
     }
 
     if (env.BRANCH_NAME == 'master') {
@@ -51,12 +51,12 @@ node {
                 "files": [
                 {
                     "pattern": "dist/swagger_server-*",
-                    "target": "rest-msg/api/${currentBuild.number}/",
+                    "target": "rest-msg/${currentBuild.number}/",
                     "props": "flake8.warnings=${warnings.flake8_warnings}"
                 },
                 {
                    "pattern": "target/result.yml",
-                    "target": "aclib/api/${currentBuild.number}/",
+                    "target": "rest-msg/${currentBuild.number}/",
                     "props": "flake8.warnings=${warnings.flake8_warnings}"
                 }
                 ]
