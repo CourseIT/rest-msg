@@ -7,7 +7,7 @@ info:
   contact:
     email: "maria.prudyvus@curs.ru"
 
-host: "172.16.1.153:8000"
+host: "maintenance.mededtech.ru"
 basePath: "/"
 tags:
   - name: "banner"

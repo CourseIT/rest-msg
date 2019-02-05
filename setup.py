@@ -17,15 +17,14 @@ VERSION = "1.{}".format(os.getenv('BUILD_NUMBER', '0'))
 REQUIRES = ["connexion", "Flask-CORS", "Flask-SQLAlchemy", "python-dotenv"]
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
-with codecs.open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
 
 setup(
     name=NAME,
     version=VERSION,
     description="Maintenance",
+    author="Maria Prudyvus",
     author_email="maria.prudyvus@curs.ru",
-    url="",
+    url="https://artifactory.corchestra.ru/artifactory/course-med/rest-msg/",
     keywords=["Swagger", "Maintenance"],
     install_requires=REQUIRES,
     packages=find_packages(),
@@ -33,6 +32,7 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': ['swagger_server=swagger_server.__main__:main']},
-    long_description=long_description,
-    long_description_content_type='text/markdown'
+    long_description="""\
+    Сервер для публикации профилактических работ
+    """
 )
