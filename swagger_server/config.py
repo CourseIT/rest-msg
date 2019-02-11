@@ -134,4 +134,3 @@ app.app.config.from_object(settings)
 db = SQLAlchemy(app.app)
 CORS(app.app)
 
-db.create_all()
