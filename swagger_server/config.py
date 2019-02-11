@@ -133,4 +133,3 @@ app.app.config.from_object(settings)
 # Create the SqlAlchemy db instance
 db = SQLAlchemy(app.app)
 CORS(app.app)
-
