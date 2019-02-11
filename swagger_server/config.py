@@ -29,11 +29,11 @@ class Config(object):
 
     APP_PORT = os.getenv('APP_PORT', '8000')
 
-    MSG_TEMPLATE = Environment(loader=BaseLoader).from_string("""ВНИМАНИЕ! 
-    C {{ banner.date_start.strftime('%H:%M %d.%m.%Y') }} 
-    до {{ banner.date_finish.strftime('%H:%M %d.%m.%Y') }} на серверах системы 
-    будут проводиться регламентные профилактические работы, 
-    в связи с чем система будет недоступна. 
+    MSG_TEMPLATE = Environment(loader=BaseLoader).from_string("""ВНИМАНИЕ!
+    C {{ banner.date_start.strftime('%H:%M %d.%m.%Y') }}
+    до {{ banner.date_finish.strftime('%H:%M %d.%m.%Y') }} на серверах системы
+    будут проводиться регламентные профилактические работы,
+    в связи с чем система будет недоступна.
     Приносим извинения за неудобства и надеемся на понимание.""")
 
     @property
