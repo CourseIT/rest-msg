@@ -6,3 +6,4 @@ python_dateutil == 2.6.0
 python-dotenv
 setuptools >= 21.0.0
 gunicorn
+psycopg2
