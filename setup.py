@@ -14,7 +14,8 @@ VERSION = "1.{}".format(os.getenv('BUILD_NUMBER', '0'))
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["connexion", "Flask-CORS", "Flask-SQLAlchemy", "python-dotenv"]
+REQUIRES = ['connexion', 'connexion[swagger-ui]', 'Flask-CORS', 'Flask-SQLAlchemy',
+            'python-dotenv', 'python_dateutil', 'gunicorn']
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 
