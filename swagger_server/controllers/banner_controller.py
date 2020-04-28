@@ -1,13 +1,13 @@
 import datetime
 
 import connexion
-import six
+from flask import current_app
 from sqlalchemy import and_
 from sqlalchemy.sql.operators import in_op
 
-from swagger_server.models import Banner, AddBannerBody  # noqa: E501
-from swagger_server.config import db, settings
 from swagger_server import util
+from swagger_server.config import db, settings
+from swagger_server.models import Banner, AddBannerBody, Email
 
 
 def add_banner(banner):  # noqa: E501
@@ -37,6 +37,15 @@ def add_banner(banner):  # noqa: E501
             db.session.commit()
         db.session.add(banner)
     db.session.commit()
+
+    email_query = Email.query.filter_by(app_code=banner.app_code)
+
+    if email_query.count():
+        current_app.enqueue('common.email', system='maintenance', sender="Noreply",
+                            receiver=[x.email for x in Email.query.filter_by(app_code=banner.app_code)],
+                            subject='Обновление системы',
+                            content_html=current_app.config['EMAIL'].render(banner=banner)
+                            )
 
     return "Данные успешно добавлены"
 

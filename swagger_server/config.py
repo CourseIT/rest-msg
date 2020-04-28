@@ -8,6 +8,8 @@ from dotenv import find_dotenv, load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from jinja2 import Environment, BaseLoader
+from redis import Redis
+from rq import Queue
 
 load_dotenv(find_dotenv())
 BASEDIR = os.path.dirname(__file__)
@@ -29,12 +31,20 @@ class Config(object):
 
     APP_PORT = os.getenv('APP_PORT', '8000')
 
+    REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
+    EMAIL_QUERY = Queue('email', connection=Redis.from_url(REDIS_URL))
+
     MSG_TEMPLATE = Environment(loader=BaseLoader).from_string("""ВНИМАНИЕ!
     C {{ banner.date_start.strftime('%H:%M %d.%m.%Y') }}
     до {{ banner.date_finish.strftime('%H:%M %d.%m.%Y') }} на серверах системы
     будут проводиться регламентные профилактические работы,
     в связи с чем система будет недоступна.
     Приносим извинения за неудобства и надеемся на понимание.""")
+
+    EMAIL = Environment(loader=BaseLoader).from_string("""C {{ banner.date_start.strftime('%H:%M %d.%m.%Y') }}
+    до {{ banner.date_finish.strftime('%H:%M %d.%m.%Y') }} на серверах системы {{ banner.app_code }}.mededtech.ru
+    будут проводиться регламентные профилактические работы,
+    в связи с чем система будет недоступна.""")
 
     @property
     def LOGGING_CONFIG(self):
