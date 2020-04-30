@@ -36,16 +36,19 @@ def add_banner(banner):  # noqa: E501
             db.session.delete(banner_in_db)
             db.session.commit()
         db.session.add(banner)
+
+        if not banner_in_db:
+            email_query = Email.query.filter_by(app_code=banner.app_code)
+
+            if email_query.count():
+                current_app.config['EMAIL_QUEUE'].enqueue(
+                    'common.email', system='maintenance', sender=current_app.config['MAIL_FROM'],
+                    receiver=[x.email for x in
+                              Email.query.filter_by(app_code=banner.app_code)],
+                    subject='Обновление системы ' + banner.app_code,
+                    content_html=current_app.config['EMAIL'].render(banner=banner)
+                )
     db.session.commit()
-
-    email_query = Email.query.filter_by(app_code=banner.app_code)
-
-    if email_query.count():
-        current_app.enqueue('common.email', system='maintenance', sender="Noreply",
-                            receiver=[x.email for x in Email.query.filter_by(app_code=banner.app_code)],
-                            subject='Обновление системы',
-                            content_html=current_app.config['EMAIL'].render(banner=banner)
-                            )
 
     return "Данные успешно добавлены"
 
