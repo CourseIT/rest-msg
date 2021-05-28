@@ -29,8 +29,10 @@ def add_banner(banner):  # noqa: E501
     for app in banner_body.app_codes:
         banner = Banner(app_code=app, date_start=banner_body.date_start, date_finish=banner_body.date_finish,
                         msg=banner_body.msg)
+        send_mail = False
         if not banner.msg:
             banner.msg = settings.MSG_TEMPLATE.render(banner=banner)
+            send_mail = True
         banner_in_db = Banner.query.get((banner.app_code, banner.date_start))
         if banner_in_db:
             db.session.delete(banner_in_db)
@@ -40,7 +42,7 @@ def add_banner(banner):  # noqa: E501
         if not banner_in_db:
             email_query = Email.query.filter_by(app_code=banner.app_code)
 
-            if email_query.count():
+            if email_query.count() and send_mail:
                 current_app.config['EMAIL_QUEUE'].enqueue(
                     'common.email', system='maintenance', sender=current_app.config['MAIL_FROM'],
                     receiver=[x.email for x in
